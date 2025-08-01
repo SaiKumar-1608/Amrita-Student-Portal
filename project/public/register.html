@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Amrita University</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0B1F1F;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background-image: radial-gradient(circle at 10% 20%, rgba(11, 31, 31, 0.9) 0%, rgba(11, 31, 31, 1) 90%);
+        }
+
+        .form {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .top-symbol {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .top-symbol img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .top-symbol h5 {
+            color: wheat;
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .title {
+            color: wheat;
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: wheat;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .input::placeholder {
+            color: rgba(245, 222, 179, 0.7);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: wheat;
+            border: none;
+            border-radius: 5px;
+            color: #0B1F1F;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e6d5b8;
+            transform: translateY(-2px);
+        }
+
+        .login-link {
+            color: wheat;
+            text-align: center;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .login-link a {
+            color: wheat;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form class="form" id="registerForm">
+            <div class="top-symbol">
+                <img src="amrita2.png" alt="Amrita University Logo">
+                <h5>Amrita university management system</h5>
+            </div>
+            <p class="title">Register</p>
+            <input placeholder="Full Name" class="input" type="text" name="name" required>
+            <input placeholder="Year of Study" class="input" type="text" name="year" required>
+            <input placeholder="Phone Number" class="input" type="tel" name="phone" required>
+            <input placeholder="Email" class="input" type="email" name="email" required>
+            <input placeholder="Username" class="input" type="text" name="username" required>
+            <input placeholder="Password" class="input" type="password" name="password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" title="Password must be at least 8 characters long and include both letters and numbers" required>
+            <button class="btn" type="submit">Register</button>
+            <p class="login-link">Already have an account? <a href="student.html">Login here</a></p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const userData = Object.fromEntries(formData);
+            if (userData.password.length < 8) {
+        alert('Password must be at least 8 characters long');
+        return;
+    }
+    if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(userData.password)) {
+        alert('Password must contain both letters and numbers');
+        return;
+    }
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Registration successful! Please login.');
+                    window.location.href = 'student.html';
+                } else {
+                    alert(data.error);
+                }
+            } catch (error) {
+                alert('Registration failed');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('amrita.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 1rem;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            color: white;
+        }
+
+        .profile-card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .profile-photo-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .photo-actions {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .change-photo-btn {
+            background: #1a73e8;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-progress {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 60px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: white;
+        }
+
+        .remove-photo-btn {
+            background: none;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .remove-photo-btn:hover {
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .profile-name {
+            margin: 0;
+            color: white;
+        }
+
+        .profile-title {
+            color: #aaa;
+            margin: 5px 0 20px;
+        }
+
+        .social-links {
+            display: grid;
+            gap: 10px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .social-link-content {
+            flex-grow: 1;
+            position: relative;
+            min-height: 25px;
+        }
+
+        .social-link-text {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .social-link-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            color: white;
+            display: none;
+        }
+
+        .social-edit-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-edit-btn:hover {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .info-section {
+            display: grid;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .edit-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: #1557b0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px 20px;
+            align-items: center;
+        }
+
+        .info-label {
+            color: #aaa;
+        }
+
+        .editable-field {
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .edit-mode .editable-field {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .interests-section, .certificates-section {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .interest-item, .certificate-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: #2c3e50;
+            color: white;
+            width: 90%;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal input, .modal textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: #3498db;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .certificate-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .certificate-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .certificate-issuer {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .certificate-date {
+            color: #aaa;
+            font-size: 0.8em;
+        }
+
+        .certificate-desc {
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .certificate-file {
+            margin-top: 5px;
+            font-size: 0.8em;
+            color: #3498db;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .certificate-file:hover {
+            text-decoration: underline;
+        }
+
+        .add-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #2980b9;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            border-radius: 4px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .toast-success {
+            background: #4CAF50;
+        }
+
+        .toast-error {
+            background: #F44336;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .navbar ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .modal-content {
+                margin: 20px auto;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Amrita-vishwa-vidyapeetham-color-logo.png" alt="Amrita Logo">
+        </div>
+        <ul>
+            <li><a href="webpage.html">HOME</a></li>
+            <li><a href="explore.html">EXPLORE</a></li>
+            <li><a href="/profile">PROFILE</a></li>
+        </ul>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-card">
+            <div class="profile-photo-container">
+                <img id="profile-photo" src="/uploads/profiles/default-avatar.png" class="profile-photo" alt="Profile Photo">
+                <div class="photo-actions">
+                    <button class="change-photo-btn" onclick="document.getElementById('photo-input').click()">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                    <div class="upload-progress" id="upload-progress">
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                        </div>
+                        <span class="progress-text" id="progress-text">0%</span>
+                    </div>
+                </div>
+                <input type="file" id="photo-input" accept="image/*" style="display: none;" onchange="previewPhoto(this)">
+            </div>
+            <button class="remove-photo-btn" onclick="removePhoto()">Remove Photo</button>
+            <h2 class="profile-name" id="username">Loading...</h2>
+            <p class="profile-title">Student</p>
+
+            <div class="social-links">
+                <div class="social-link">
+                    <i class="fab fa-github"></i>
+                    <div class="social-link-content">
+                        <span id="github" class="social-link-text">Not provided</span>
+                        <input type="text" id="github-input" class="social-link-input" placeholder="GitHub username">
+                    </div>
+                    <button class="social-edit-btn" onclick="toggleSocialEdit('github')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="social-link">
+                    <i class="fab fa-twitter"></i>
+                    <div class="social-link-content">
+                        <span id="twitter" class="social-link-text">Not provided</span>
+                        <input type="text" id="twitter-input" class="social-link-input" placeholder="Twitter handle">
+                    </div>
+                    <button class="social-edit-btn" onclick="toggleSocialEdit('twitter')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="social-link">
+                    <i class="fab fa-instagram"></i>
+                    <div class="social-link-content">
+                        <span id="instagram" class="social-link-text">Not provided</span>
+                        <input type="text" id="instagram-input" class="social-link-input" placeholder="Instagram username">
+                    </div>
+                    <button class="social-edit-btn" onclick="toggleSocialEdit('instagram')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="social-link">
+                    <i class="fab fa-facebook"></i>
+                    <div class="social-link-content">
+                        <span id="facebook" class="social-link-text">Not provided</span>
+                        <input type="text" id="facebook-input" class="social-link-input" placeholder="Facebook username">
+                    </div>
+                    <button class="social-edit-btn" onclick="toggleSocialEdit('facebook')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-card">
+                <button class="edit-btn" id="toggle-edit-btn" onclick="toggleEditMode()">Edit</button>
+                <div class="info-grid">
+                    <div class="info-label">Full Name</div>
+                    <div class="editable-field" id="fullname">Loading...</div>
+                    
+                    <div class="info-label">Email</div>
+                    <div class="editable-field" id="email">Loading...</div>
+                    
+                    <div class="info-label">Phone</div>
+                    <div class="editable-field" id="phone">Loading...</div>
+                    
+                    <div class="info-label">Mobile</div>
+                    <div class="editable-field" id="mobile">Loading...</div>
+                    
+                    <div class="info-label">Address</div>
+                    <div class="editable-field" id="address">Loading...</div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>Areas of Interest</h3>
+                <div class="interests-section" id="interests-container">
+                    <!-- Interests will be loaded here -->
+                </div>
+                <button class="add-btn" onclick="showInterestModal()">Add Interest</button>
+            </div>
+
+            <div class="info-card">
+                <h3>Certificates & Achievements</h3>
+                <div class="certificates-section" id="certificates-container">
+                    <!-- Certificates will be loaded here -->
+                </div>
+                <button class="add-btn" onclick="showCertificateModal()">Add Certificate</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interest Modal -->
+    <div id="interestModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('interestModal')">&times;</button>
+            <h2>Add Interest</h2>
+            <input type="text" id="interest-name" placeholder="Interest Name">
+            <input type="text" id="interest-icon" placeholder="Font Awesome Icon Class">
+            <button class="submit-btn" onclick="addInterest()">Add Interest</button>
+        </div>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('certificateModal')">&times;</button>
+            <h2>Add Certificate</h2>
+            <input type="text" id="certificate-name" placeholder="Certificate Name">
+            <input type="text" id="certificate-issuer" placeholder="Issuing Organization">
+            <input type="date" id="certificate-date">
+            <textarea id="certificate-description" placeholder="Description" rows="4"></textarea>
+            <input type="file" id="certificate-file" accept=".pdf,.jpg,.jpeg,.png">
+            <button class="submit-btn" onclick="addCertificate()">Add Certificate</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        let isEditMode = false;
+        
+        // Load profile data when page loads
+        window.addEventListener('load', loadProfile);
+
+        async function loadProfile() {
+            try {
+                const response = await fetch('/api/profile', {
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load profile');
+                }
+                
+                const user = await response.json();
+                
+                document.getElementById('username').textContent = user.username;
+                document.getElementById('fullname').textContent = user.fullName || 'Not provided';
+                document.getElementById('email').textContent = user.email || 'Not provided';
+                document.getElementById('phone').textContent = user.phone || 'Not provided';
+                document.getElementById('mobile').textContent = user.mobile || 'Not provided';
+                document.getElementById('address').textContent = user.address || 'Not provided';
+                
+                if (user.profilePhoto) {
+                    document.getElementById('profile-photo').src = `/uploads/profiles/${user.profilePhoto}?t=${Date.now()}`;
+                }
+
+                // Load social links
+                if (user.socialLinks) {
+                    for (const [platform, link] of Object.entries(user.socialLinks)) {
+                        if (link) {
+                            document.getElementById(platform).textContent = link;
+                        }
+                    }
+                }
+
+                // Load certificates
+                const certificatesContainer = document.getElementById('certificates-container');
+                certificatesContainer.innerHTML = '';
+                if (user.certificates && user.certificates.length > 0) {
+                    user.certificates.forEach(cert => {
+                        const certElement = document.createElement('div');
+                        certElement.className = 'certificate-item';
+                        certElement.innerHTML = `
+                            <div class="certificate-title">${cert.name}</div>
+                            <div class="certificate-issuer">${cert.issuer}</div>
+                            <div class="certificate-date">${new Date(cert.date).toLocaleDateString()}</div>
+                            <div class="certificate-desc">${cert.description}</div>
+                            ${cert.fileUrl ? `<a href="${cert.fileUrl}" class="certificate-file" target="_blank">View Certificate</a>` : ''}
+                        `;
+                        certificatesContainer.appendChild(certElement);
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showToast('Failed to load profile', 'error');
+            }
+        }
+
+        // Toggle edit mode
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const editBtn = document.getElementById('toggle-edit-btn');
+            
+            if (isEditMode) {
+                editBtn.textContent = 'Save';
+                document.querySelector('.info-section').classList.add('edit-mode');
+                
+                document.querySelectorAll('.editable-field').forEach(field => {
+                    const value = field.textContent;
+                    field.innerHTML = `<input type="text" value="${value}" data-field="${field.id}">`;
+                });
+                
+            } else {
+                editBtn.textContent = 'Edit';
+                document.querySelector('.info-section').classList.remove('edit-mode');
+                saveProfileChanges();
+            }
+        }
+
+        // Save profile changes
+        async function saveProfileChanges() {
+            const updatedData = {};
+            document.querySelectorAll('.editable-field input').forEach(input => {
+                const field = input.getAttribute('data-field');
+                updatedData[field] = input.value;
+                document.getElementById(field).textContent = input.value;
+            });
+            
+            try {
+                const response = await fetch('/api/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedData),
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to update profile');
+                }
+                
+                showToast('Profile updated successfully', 'success');
+                
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showToast('Failed to update profile', 'error');
+            }
+        }
+
+        // Photo upload functions
+        function previewPhoto(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                if (!file.type.startsWith('image/')) {
+                    showToast('Please select an image file (JPEG, PNG, etc.)', 'error');
+                    resetPhoto();
+                    return;
+                }
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('Image size should be less than 5MB', 'error');
+                    resetPhoto();
+                    return;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    document.getElementById('profile-photo').src = e.target.result;
+                    uploadPhoto(file);
+                }
+                
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function uploadPhoto(file) {
+            const formData = new FormData();
+            formData.append('photo', file);
+            
+            try {
+                // Show progress bar
+                const progressBar = document.getElementById('progress-bar-fill');
+                const progressText = document.getElementById('progress-text');
+                const progressContainer = document.getElementById('upload-progress');
+                progressContainer.style.display = 'flex';
+                
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/api/profile/photo', true);
+                xhr.withCredentials = true;
+                
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable) {
+                        const percentComplete = Math.round((e.loaded / e.total) * 100);
+                        progressBar.style.width = percentComplete + '%';
+                        progressText.textContent = percentComplete + '%';
+                    }
+                };
+                
+                xhr.onload = function() {
+                    progressContainer.style.display = 'none';
+                    
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        document.getElementById('profile-photo').src = `/uploads/profiles/${response.filename}?t=${Date.now()}`;
+                        showToast('Profile photo updated successfully', 'success');
+                    } else {
+                        const error = JSON.parse(xhr.responseText);
+                        throw new Error(error.error || 'Failed to upload photo');
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    throw new Error('Network error occurred');
+                };
+                
+                xhr.send(formData);
+                
+            } catch (error) {
+                console.error('Error uploading photo:', error);
+                resetPhoto();
+                showToast(error.message || 'Failed to upload photo', 'error');
+            }
+        }
+
+        function resetPhoto() {
+            const fileInput = document.getElementById('photo-input');
+            fileInput.value = '';
+            document.getElementById('profile-photo').src = document.getElementById('profile-photo').src.split('?')[0];
+            document.getElementById('upload-progress').style.display = 'none';
+        }
+
+        // Remove photo function
+        async function removePhoto() {
+            if (confirm('Are you sure you want to remove your profile photo?')) {
+                try {
+                    const response = await fetch('/api/profile/photo', {
+                        method: 'DELETE',
+                        credentials: 'include'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to remove photo');
+                    }
+                    
+                    document.getElementById('profile-photo').src = '/uploads/profiles/default-avatar.png';
+                    showToast('Profile photo removed successfully', 'success');
+                    
+                } catch (error) {
+                    console.error('Error removing photo:', error);
+                    showToast('Failed to remove photo', 'error');
+                }
+            }
+        }
+
+        // Social link editing
+        function toggleSocialEdit(platform) {
+            const textElement = document.getElementById(platform);
+            const inputElement = document.getElementById(`${platform}-input`);
+            const editBtn = document.querySelector(`button[onclick="toggleSocialEdit('${platform}')"]`);
+            
+            if (inputElement.style.display === 'none') {
+                // Switch to edit mode
+                inputElement.value = textElement.textContent === 'Not provided' ? '' : textElement.textContent;
+                textElement.style.display = 'none';
+                inputElement.style.display = 'block';
+                inputElement.focus();
+                editBtn.innerHTML = '<i class="fas fa-check"></i>';
+                
+                inputElement.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        saveSocialLink(platform);
+                    }
+                });
+                
+                inputElement.addEventListener('blur', function() {
+                    saveSocialLink(platform);
+                });
+            } else {
+                // Save changes
+                saveSocialLink(platform);
+            }
+        }
+
+        async function saveSocialLink(platform) {
+            const textElement = document.getElementById(platform);
+            const inputElement = document.getElementById(`${platform}-input`);
+            const editBtn = document.querySelector(`button[onclick="toggleSocialEdit('${platform}')"]`);
+            const newValue = inputElement.value.trim();
+            
+            try {
+                const response = await fetch('/api/profile/social', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        platform: platform,
+                        value: newValue
+                    }),
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to update social link');
+                }
+                
+                textElement.textContent = newValue || 'Not provided';
+                textElement.style.display = 'block';
+                inputElement.style.display = 'none';
+                editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                
+                showToast(`${platform.charAt(0).toUpperCase() + platform.slice(1)} link updated`, 'success');
+            } catch (error) {
+                console.error('Error updating social link:', error);
+                showToast('Failed to update social link', 'error');
+                inputElement.style.display = 'none';
+                textElement.style.display = 'block';
+                editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            }
+        }
+
+        // Modal functions
+        function showInterestModal() {
+            document.getElementById('interestModal').style.display = 'block';
+        }
+
+        function showCertificateModal() {
+            document.getElementById('certificateModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Add certificate
+        async function addCertificate() {
+            const name = document.getElementById('certificate-name').value.trim();
+            const issuer = document.getElementById('certificate-issuer').value.trim();
+            const date = document.getElementById('certificate-date').value;
+            const description = document.getElementById('certificate-description').value.trim();
+            const fileInput = document.getElementById('certificate-file');
+            
+            if (!name || !issuer || !date) {
+                showToast('Please fill all required fields', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('issuer', issuer);
+            formData.append('date', date);
+            formData.append('description', description);
+            
+            if (fileInput.files.length > 0) {
+                formData.append('certificateFile', fileInput.files[0]);
+            }
+            
+            try {
+                const response = await fetch('/api/profile/certificates', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to add certificate');
+                }
+                
+                const certificate = await response.json();
+                
+                const certificatesContainer = document.getElementById('certificates-container');
+                const certElement = document.createElement('div');
+                certElement.className = 'certificate-item';
+                certElement.innerHTML = `
+                    <div class="certificate-title">${certificate.name}</div>
+                    <div class="certificate-issuer">${certificate.issuer}</div>
+                    <div class="certificate-date">${new Date(certificate.date).toLocaleDateString()}</div>
+                    <div class="certificate-desc">${certificate.description}</div>
+                    ${certificate.fileUrl ? `<a href="${certificate.fileUrl}" class="certificate-file" target="_blank">View Certificate</a>` : ''}
+                `;
+                certificatesContainer.appendChild(certElement);
+                
+                closeModal('certificateModal');
+                showToast('Certificate added successfully', 'success');
+                
+            } catch (error) {
+                console.error('Error adding certificate:', error);
+                showToast('Failed to add certificate', 'error');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast toast-${type}`;
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }, 100);
+        }
+    </script>
+</body>
+</html>

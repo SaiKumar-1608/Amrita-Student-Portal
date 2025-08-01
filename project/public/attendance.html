@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('forall.jpeg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 500px;
+            margin: 50px 500px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        select option {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: #3498db;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .attendance-result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .attendance-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .attendance-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .percentage {
+            margin-top: 15px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .navbar ul {
+                margin-top: 15px;
+            }
+        }
+
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 90%;
+            max-width: 800px;
+            color: #333;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .popup-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img src="Amrita-vishwa-vidyapeetham-color-logo.png" alt="Logo" class="logo">
+        <ul>
+            <li><a href="webpage.html">Home</a></li>
+            <li><a href="explore.html">Explore</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>View Attendance</h1>
+        <form id="attendanceForm">
+            <div class="form-group">
+                <label for="subject">Select Subject</label>
+                <select id="subject" name="subject" required>
+                    <option value="">Select Subject</option>
+                    <option value="math">Mathematics</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                    <option value="english">English</option>
+                    <option value="programming">Programming</option>
+                    <option value="dsa">Data Structures</option>
+                    <option value="dbms">Database Systems</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="semester">Select Semester</label>
+                <select id="semester" name="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Select Year</label>
+                <select id="year" name="year" required>
+                    <option value="">Select Year</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-search"></i> View Attendance
+            </button>
+        </form>
+
+        <div id="attendanceResult" class="attendance-result">
+            <div class="attendance-header">
+                <span>Date</span>
+                <span>Status</span>
+            </div>
+            <div id="attendanceDetails"></div>
+            <div id="attendancePercentage" class="percentage"></div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <div class="popup-header">
+            <div class="popup-title" id="popupTitle">Attendance Details</div>
+            <button class="close-btn" id="closeBtn">&times;</button>
+        </div>
+        <div class="attendance-header">
+            <span>Date</span>
+            <span>Status</span>
+        </div>
+        <div id="popupAttendanceDetails"></div>
+        <div id="popupPercentage" class="percentage"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Amrita Institutions. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('attendanceForm');
+            const attendanceResult = document.getElementById('attendanceResult');
+            const attendanceDetails = document.getElementById('attendanceDetails');
+            const attendancePercentage = document.getElementById('attendancePercentage');
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+            const closeBtn = document.getElementById('closeBtn');
+            const popupAttendanceDetails = document.getElementById('popupAttendanceDetails');
+            const popupPercentage = document.getElementById('popupPercentage');
+            const popupTitle = document.getElementById('popupTitle');
+
+            // Sample student names for demonstration
+            const studentNames = [
+                "Aarav Sharma", "Aditi Patel", "Akshay Kumar", "Ananya Singh", 
+                "Arjun Reddy", "Bhavya Gupta", "Chetan Mehta", "Divya Joshi",
+                "Gaurav Malhotra", "Ishaan Verma", "Kriti Khanna", "Manish Dubey",
+                "Neha Srinivasan", "Pooja Iyer", "Rahul Nair", "Sanya Kapoor",
+                "Vikram Chatterjee", "Yash Chopra", "Zoya Khan"
+            ];
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const subject = document.getElementById('subject').value;
+                const semester = document.getElementById('semester').value;
+                const year = document.getElementById('year').value;
+
+                if (!subject || !semester || !year) {
+                    alert('Please select all fields');
+                    return;
+                }
+
+                // Generate random attendance data
+                const attendanceData = generateRandomAttendance(subject, semester, year);
+                
+                // Display in popup
+                displayAttendanceInPopup(attendanceData, subject, semester, year);
+            });
+
+            function generateRandomAttendance(subject, semester, year) {
+                const attendance = [];
+                const totalClasses = getRandomInt(15, 30); // Between 15-30 classes
+                const studentCount = getRandomInt(15, 25); // Between 15-25 students
+                
+                // Generate random dates for classes
+                const startDate = new Date(`${year}-${semester % 2 === 1 ? '08' : '01'}-01`);
+                const endDate = new Date(`${year}-${semester % 2 === 1 ? '12' : '05'}-31`);
+                
+                const classDates = [];
+                for (let i = 0; i < totalClasses; i++) {
+                    const randomDate = new Date(startDate.getTime() + Math.random() * 
+                                              (endDate.getTime() - startDate.getTime()));
+                    classDates.push(randomDate);
+                }
+                classDates.sort((a, b) => a - b); // Sort dates chronologically
+                
+                // Generate attendance for each student
+                const students = [];
+                for (let i = 0; i < studentCount; i++) {
+                    const student = {
+                        id: `STU${1000 + i}`,
+                        name: studentNames[i % studentNames.length] || `Student ${i + 1}`,
+                        attendance: []
+                    };
+                    
+                    let presentCount = 0;
+                    for (const classDate of classDates) {
+                        const isPresent = Math.random() > 0.2; // 80% chance of being present
+                        if (isPresent) presentCount++;
+                        
+                        student.attendance.push({
+                            date: classDate,
+                            status: isPresent ? 'Present' : 'Absent'
+                        });
+                    }
+                    
+                    student.percentage = Math.round((presentCount / totalClasses) * 100);
+                    students.push(student);
+                }
+                
+                return {
+                    subject,
+                    semester,
+                    year,
+                    totalClasses,
+                    classDates,
+                    students
+                };
+            }
+
+            function displayAttendanceInPopup(data, subject, semester, year) {
+                // Clear previous data
+                popupAttendanceDetails.innerHTML = '';
+                
+                // Set popup title
+                popupTitle.textContent = `${getSubjectName(subject)} Attendance - Sem ${semester} (${year})`;
+                
+                // Display class dates
+                const classHeader = document.createElement('div');
+                classHeader.className = 'attendance-row';
+                classHeader.style.fontWeight = 'bold';
+                classHeader.style.marginBottom = '10px';
+                
+                let headerHTML = '<span>Student</span>';
+                for (const date of data.classDates) {
+                    headerHTML += `<span>${formatDate(date)}</span>`;
+                }
+                headerHTML += '<span>%</span>';
+                classHeader.innerHTML = headerHTML;
+                popupAttendanceDetails.appendChild(classHeader);
+                
+                // Display each student's attendance
+                data.students.forEach(student => {
+                    const row = document.createElement('div');
+                    row.className = 'attendance-row';
+                    
+                    let rowHTML = `<span>${student.name}</span>`;
+                    for (const att of student.attendance) {
+                        rowHTML += `<span style="color: ${att.status === 'Present' ? 'green' : 'red'}">${att.status.charAt(0)}</span>`;
+                    }
+                    rowHTML += `<span>${student.percentage}%</span>`;
+                    row.innerHTML = rowHTML;
+                    popupAttendanceDetails.appendChild(row);
+                });
+                
+                // Calculate and display overall percentage
+                const totalPresent = data.students.reduce((sum, student) => {
+                    return sum + (student.percentage * data.totalClasses / 100);
+                }, 0);
+                
+                const totalPossible = data.students.length * data.totalClasses;
+                const overallPercentage = Math.round((totalPresent / totalPossible) * 100);
+                
+                popupPercentage.textContent = `Overall Attendance: ${overallPercentage}%`;
+                
+                // Show popup
+                popup.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+
+            // Helper functions
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            function formatDate(date) {
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+
+            function getSubjectName(code) {
+                const subjects = {
+                    'math': 'Mathematics',
+                    'physics': 'Physics',
+                    'chemistry': 'Chemistry',
+                    'biology': 'Biology',
+                    'english': 'English',
+                    'programming': 'Programming',
+                    'dsa': 'Data Structures',
+                    'dbms': 'Database Systems'
+                };
+                return subjects[code] || code;
+            }
+
+            // Close popup
+            closeBtn.addEventListener('click', function() {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+
+            overlay.addEventListener('click', function() {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

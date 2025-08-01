@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Amrita University's Engineering College</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('amrita.jpg');
+            background-size: cover;
+            color: white;
+        }
+
+        .navbar {
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.logo {
+    height: 35px;
+    margin-right: 20px;
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.navbar ul li {
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+    text-transform: uppercase;
+}
+
+.navbar ul li a:hover {
+    color: #ff69b4; /* Pink color matching the logo */
+}
+
+        .main-content {
+            margin-top: 80px;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .team-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .team-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            width: 300px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .avatar-circle {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .team-name {
+            color: #3498db;
+            margin: 10px 0;
+        }
+
+        .team-role {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .team-education {
+            color: #2ecc71;
+            margin: 5px 0;
+        }
+
+        .team-contribution {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="Amrita-vishwa-vidyapeetham-color-logo.png" class="logo">
+        <nav>
+            <ul>
+                <li><a href="webpage.html">HOME</a></li>
+                <li><a href="explore.html">EXPLORE</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h1>Our Legacy</h1>
+            <p>
+                Welcome to the official repository website of Amrita University's Engineering College. Founded in 2003, our institution is a proud member of the Amrita Vishwa Vidyapeetham educational network. Under the compassionate guidance of our Chancellor, Sri Mata Amritanandamayi Devi (Amma), we have earned a global reputation for excellence in engineering and technology education.
+            </p>
+        </div>
+
+        <div class="container">
+            <h2>Academic Excellence</h2>
+            <p>
+                Amrita University's is committed to providing students with a world-class education. We offer rigorous academic programs that build a strong foundation in engineering principles and prepare students to excel in the fast-paced world of technology. Our dedicated faculty, cutting-edge facilities, and a focus on research and innovation have consistently placed us among the top-ranked engineering colleges globally.
+            </p>
+        </div>
+
+        <div class="team-section container">
+            <h2 class="section-title">Our Team</h2>
+            <div class="team-grid">
+                <div class="team-card" style="animation-delay: 0.2s">
+                    <div class="avatar-circle">👨‍💻</div>
+                    <h3 class="team-name">A DHORASATYAMURTHY</h3>
+                    <p class="team-role">Developer</p>
+                    <p class="team-education">B.Tech CSE</p>
+                    <p class="team-contribution">Developed an interactive Double Ended Queue visualization with HTML, CSS, and JavaScript. Implemented core deque operations, real-time animations, and algorithm demonstrations for educational purposes.</p>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="container">
+            <h2>Research and Innovation</h2>
+            <p>
+                Research is at the core of our mission. Amrita University's Engineering College hosts state-of-the-art research centers and laboratories that drive creativity and discovery. Our faculty and students are engaged in addressing real-world challenges and making meaningful contributions to society.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Amrita Institutions. All rights reserved.</p>
+    </footer>
+</body>
+</html>

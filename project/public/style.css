@@ -1,0 +1,156 @@
+* {
+
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto',sans-serif;
+
+}
+.container {
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(L12.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-left: 6%;
+    padding-right: 6%;
+    box-sizing: border-box;
+}
+.navbar {
+    height: 10%;
+    display: flex;
+    align-items: center;
+}
+.logo {
+    width: 220px;
+    height: 100px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.menu-icon {
+    width: 30px;
+    cursor: pointer;
+    margin-left: 40px;
+}
+nav {
+    flex: 1;
+    text-align: right;
+    text-align: right;
+}
+nav ul li 
+{
+    list-style: none;
+    display: inline-block;
+    margin-left: 60px;
+}
+nav ul li a{
+     text-decoration: none;
+     color: #fff;
+     font-size: 13px;
+}
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 13px;
+    position: relative; /* Add this property */
+    transition: 0.2s; /* Add a smooth transition for the underline effect */
+
+}
+
+nav ul li a:hover {
+    color: #fff; /* Change the text color on hover if needed */
+}
+
+nav ul li a::before {
+    content: ""; /* Create a pseudo-element for the underline */
+    position: absolute;
+    width: 100%;
+    height: 2px; /* Adjust the height of the underline as needed */
+    background: #fff; /* Define the underline color */
+    bottom: -5px; /* Adjust the position of the underline based on your design */
+    left: 0;
+    transform: scaleX(0); /* Initially, set the underline to a width of 0 */
+    transform-origin: center; /* Set the transform origin to the center for a smooth effect */
+    transition: transform 0.2s; /* Add a transition for the underline animation */
+}
+
+nav ul li a:hover::before {
+    transform: scaleX(1); /* Increase the width of the underline on hover */
+}
+
+.row{
+
+    display: flex;
+    height: 88%;
+    align-items: center;
+}
+.col{
+    flex-basis: 50%;
+}
+h1{
+    color:antiquewhite;
+    font-size: 100px;
+}
+p{
+    color: white;
+    font-size: 11px;
+    line-height: 15px;
+}
+button {
+
+    width: 180px;
+    color: #000;
+    font-size: 12px;
+    padding: 12px 0;
+    background: #fff;
+    border: 0;
+    border-radius: 20px;
+    outline: none;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.card{
+    width: 140px;
+    height: 100px;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 20px 10px 10px 20px ;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 10px 15px;
+    background-color: antiquewhite;
+    background-position: center;
+    background-size: cover;
+    font-size: 30px;
+}
+.card {
+    /* ... other styles ... */
+    transition: transform 0.5s;  /* Change the duration to 2s */
+}
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+.menu-icon {
+    cursor: pointer;
+    color: #fff;
+}
+.btn{
+    transition: transform 0.5s;
+}
+.btn:hover{
+
+    transform: scale(1.1);
+}
+h5 {
+    margin-top: 4px;
+    font-size:12px;
+}
+
+
+
+
+
+

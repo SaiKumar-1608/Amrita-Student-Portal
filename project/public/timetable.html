@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Table</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('forall.jpeg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 500px;
+            margin: 50px 500px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        select option {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: #3498db;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .popup-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .navbar ul {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <img src="Amrita-vishwa-vidyapeetham-color-logo.png" alt="Logo" class="logo">
+        <ul>
+            <li><a href="webpage.html">Home</a></li>
+            <li><a href="explore.html">Explore</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>View Time Table</h1>
+        <form id="timetableForm">
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <select id="semester" required>
+                    <option value="">Select Semester</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="section">Section</label>
+                <select id="section" required>
+                    <option value="">Select Section</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year</label>
+                <select id="year" required>
+                    <option value="">Select Year</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-calendar-alt"></i> View Time Table
+            </button>
+        </form>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <div class="popup-header">
+            <button class="popup-btn" id="downloadBtn">
+                <i class="fas fa-download"></i>
+            </button>
+            <button class="popup-btn" id="closeBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="timetableContent"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Amrita Institutions. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('#timetableForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const semester = document.getElementById('semester').value;
+                const section = document.getElementById('section').value;
+                const year = document.getElementById('year').value;
+
+                if (!semester || !section || !year) {
+                    alert('Please select all fields');
+                    return;
+                }
+
+                let pdfPath = '';
+                
+                // Map specific combinations to PDFs
+                if (semester == 1 && section == 'A' && year == 2024) {
+    pdfPath = 'timetable/111.pdf';
+} 
+else if (semester == 1 && section == 'B' && year == 2024) {
+    pdfPath = '/timetable/111.pdf';
+}
+else if (semester == 1 && section == 'C' && year == 2024) {
+    pdfPath = '/timetable/111.pdf';
+}
+else if (semester == 2 && section == 'A' && year == 2024) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 2 && section == 'B' && year == 2024) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 2 && section == 'C' && year == 2024) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 3 && section == 'A' && year == 2024) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 3 && section == 'B' && year == 2024) {
+    pdfPath = 'timetable/111.pdf';
+}
+else if (semester == 3 && section == 'C' && year == 2024) {
+    pdfPath = 'timetable/111.pdf';
+}
+else if (semester == 4 && section == 'A' && year == 2024) {
+    pdfPath = 'timetable/111.pdf';
+}
+else if (semester == 4 && section == 'B' && year == 2024) {
+    pdfPath = 'timetable/111.pdf';
+}
+else if (semester == 4 && section == 'C' && year == 2024) {
+    pdfPath = 'timetable/111.pdf';
+}
+// For previous years (2021-2023)
+else if (semester == 1 && section == 'A' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = 'timetable/111.pdf';
+}
+else if (semester == 1 && section == 'B' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 1 && section == 'C' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 2 && section == 'A' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 2 && section == 'B' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = 'timetable/archives/2B_2021-23.pdf';
+}
+else if (semester == 2 && section == 'C' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 3 && section == 'A' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 3 && section == 'B' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 3 && section == 'C' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 4 && section == 'A' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 4 && section == 'B' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+else if (semester == 4 && section == 'C' && (year == 2023 || year == 2022 || year == 2021)) {
+    pdfPath = '/timetable/B.Tech CSE II Year.xlsx - II CSE C.pdf';
+}
+// Default case if no match found
+else {
+    pdfPath = 'timetable/default.pdf';
+}
+
+
+
+
+
+
+                if (pdfPath) {
+                    const popup = document.getElementById('popup');
+                    const overlay = document.getElementById('overlay');
+                    const timetableContent = document.getElementById('timetableContent');
+
+                    timetableContent.innerHTML = `
+                        <embed src="${pdfPath}" 
+                               type="application/pdf" 
+                               width="100%" 
+                               height="600px">
+                    `;
+                    
+                    popup.style.display = 'block';
+                    overlay.style.display = 'block';
+
+                    document.getElementById('closeBtn').addEventListener('click', function() {
+                        popup.style.display = 'none';
+                        overlay.style.display = 'none';
+                    });
+
+                    document.getElementById('downloadBtn').addEventListener('click', function() {
+                        const link = document.createElement('a');
+                        link.href = pdfPath;
+                        link.download = pdfPath.split('/').pop();
+                        link.click();
+                    });
+                } else {
+                    alert('Timetable not available for selected combination');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

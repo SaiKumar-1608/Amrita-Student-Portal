@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Papers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('forall.jpeg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 20px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 500px;
+            margin: 50px 500px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            font-size: 2em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        select option {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: #3498db;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .popup-title {
+            font-size: 1.5em;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .popup-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .paper-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .paper-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .paper-name {
+            color: #333;
+            flex-grow: 1;
+        }
+
+        .download-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .navbar ul {
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="Amrita-vishwa-vidyapeetham-color-logo.png" class="logo">
+        <nav>
+            <ul>
+                <li><a href="webpage.html">HOME</a></li>
+                <li><a href="explore.html">EXPLORE</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <h1>Question Papers</h1>
+        <form>
+            <div class="form-group">
+                <label for="semester">Select Semester</label>
+                <select id="semester" name="semester">
+                    <option value="">Select Semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="section">Select Section</label>
+                <select id="section" name="section">
+                    <option value="">Select Section</option>
+                    <option value="A">Section A</option>
+                    <option value="B">Section B</option>
+                    <option value="C">Section C</option>
+                    <option value="D">Section D</option>
+                    <option value="E">Section E</option>
+                    <option value="F">Section F</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Select Year</label>
+                <select id="year" name="year">
+                    <option value="">Select Year</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-search"></i> View Question Papers
+            </button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Amrita Institutions. All rights reserved.</p>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <div class="popup-header">
+            <div class="popup-title" id="popupTitle">Question Papers</div>
+            <button class="popup-btn" id="closeBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="paper-list" id="paperList">
+            <!-- Papers will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+            const closeBtn = document.getElementById('closeBtn');
+            const paperList = document.getElementById('paperList');
+            const popupTitle = document.getElementById('popupTitle');
+            
+            // Question papers database
+            
+            const questionPapers = {
+    // Semester 1
+    '1': {
+        'A': {
+            '2024': [
+                { name: '22CSE101_Sem1_Jan2024.pdf', path: 'uploads/22CSE101_Sem1_Jan2024.pdf' },
+                { name: '22CSE101_Ass1_Oct2023.pdf', path: 'uploads/22CSE101_Ass1_Oct2023.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE101_Sem1_Jan2023.pdf', path: 'uploads/21CSE101_Sem1_Jan2023.pdf' },
+                { name: '21CSE101_Ass1_Nov2022.pdf', path: 'uploads/21CSE101_Ass1_Nov2022.pdf' }
+            ],
+            '2022': [
+                { name: '20CSE101_Sem1_Jan2022.pdf', path: 'uploads/20CSE101_Sem1_Jan2022.pdf' }
+            ]
+        },
+        'B': {
+            '2024': [
+                { name: '22CSE102_Sem1_Jan2024.pdf', path: 'uploads/22CSE102_Sem1_Jan2024.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE102_Sem1_Jan2023.pdf', path: 'uploads/21CSE102_Sem1_Jan2023.pdf' }
+            ]
+        },
+        'C': {
+            '2024': [
+                { name: '22CSE103_Sem1_Jan2024.pdf', path: 'uploads/22CSE103_Sem1_Jan2024.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE103_Sem1_Jan2023.pdf', path: 'uploads/21CSE103_Sem1_Jan2023.pdf' }
+            ]
+        }
+    },
+    // Semester 2
+    '2': {
+        'A': {
+            '2024': [
+                { name: '22CSE201_Sem2_Apr2024.pdf', path: 'uploads/22CSE201_Sem2_Apr2024.pdf' },
+                { name: '22CSE201_Ass1_Feb2024.pdf', path: 'uploads/22CSE201_Ass1_Feb2024.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE201_Sem2_Apr2023.pdf', path: 'uploads/21CSE201_Sem2_Apr2023.pdf' },
+                { name: '21CSE201_Ass1_Mar2023.pdf', path: 'uploads/21CSE201_Ass1_Mar2023.pdf' }
+            ],
+            '2022': [
+                { name: '20CSE201_Sem2_Apr2022.pdf', path: 'uploads/20CSE201_Sem2_Apr2022.pdf' }
+            ]
+        },
+        'B': {
+            '2024': [
+                { name: '22CSE202_Sem2_Apr2024.pdf', path: 'uploads/22CSE202_Sem2_Apr2024.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE202_Sem2_Apr2023.pdf', path: 'uploads/21CSE202_Sem2_Apr2023.pdf' }
+            ]
+        },
+        'C': {
+            '2024': [
+                { name: '22CSE203_Sem2_Apr2024.pdf', path: 'uploads/22CSE203_Sem2_Apr2024.pdf' },
+                { name: '22CSE203_Ass2_Mar2024.pdf', path: 'uploads/22CSE203_Ass2_Mar2024.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE203_Sem2_Apr2023.pdf', path: 'uploads/21CSE203_Sem2_Apr2023.pdf' }
+            ]
+        },
+        'D': {
+            '2023': [
+                { name: '21CSE204_Sem2_Apr2023.pdf', path: 'uploads/21CSE204_Sem2_Apr2023.pdf' }
+            ]
+        }
+    },
+    // Semester 3
+    '3': {
+        'A': {
+            '2024': [
+                { name: '22CSE301_Sem3_Nov2024.pdf', path: 'uploads/22CSE301_Sem3_Nov2024.pdf' },
+                { name: '22CSE301_Ass1_Sep2024.pdf', path: 'uploads/22CSE301_Ass1_Sep2024.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE301_Sem3_Nov2023.pdf', path: 'uploads/21CSE301_Sem3_Nov2023.pdf' },
+                { name: '21CSE301_Ass1_Oct2023.pdf', path: 'uploads/21CSE301_Ass1_Oct2023.pdf' }
+            ],
+            '2022': [
+                { name: '20CSE301_Sem3_Nov2022.pdf', path: 'uploads/20CSE301_Sem3_Nov2022.pdf' }
+            ]
+        },
+        'B': {
+            '2024': [
+                { name: '22CSE302_Sem3_Nov2024.pdf', path: 'uploads/22CSE302_Sem3_Nov2024.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE302_Sem3_Nov2023.pdf', path: 'uploads/21CSE302_Sem3_Nov2023.pdf' },
+                { name: '19CSE302_V Sem Jan 2023.pdf', path: 'uploads/19CSE302_V Sem Jan 2023.pdf' },
+                { name: '19CSE302_I Ass Oct 2022.pdf', path: 'uploads/19CSE302_I Ass Oct 2022.pdf' },
+                { name: '19CSE302_II Ass Dec 2022.pdf', path: 'uploads/19CSE302_II Ass Dec 2022.pdf' }
+            ],
+            '2022': [
+                { name: '20CSE302_Sem3_Nov2022.pdf', path: 'uploads/20CSE302_Sem3_Nov2022.pdf' },
+                { name: '18CSE302_V Sem Jan 2022.pdf', path: 'uploads/18CSE302_V Sem Jan 2022.pdf' }
+            ]
+        },
+        'C': {
+            '2024': [
+                { name: '22CSE303_Sem3_Nov2024.pdf', path: 'uploads/22CSE303_Sem3_Nov2024.pdf' },
+                { name: '20CSE311_VI Sem Apr 2024.pdf', path: 'uploads/20CSE311_VI Sem Apr 2024.pdf' }
+            ],
+            '2023': [
+                { name: '21CSE303_Sem3_Nov2023.pdf', path: 'uploads/21CSE303_Sem3_Nov2023.pdf' },
+                { name: '19CSE305_I Ass Oct 2022.pdf', path: 'uploads/19CSE305_I Ass Oct 2022.pdf' }
+            ],
+            '2022': [
+                { name: '20CSE303_Sem3_Nov2022.pdf', path: 'uploads/20CSE303_Sem3_Nov2022.pdf' }
+            ],
+            '2019': [
+                { name: '15CSE312_VI Sem Apr 2019.pdf', path: 'uploads/15CSE312_VI Sem Apr 2019.pdf' },
+                { name: '15CSE211_I Ass_ Jan 2019.pdf', path: 'uploads/15CSE211_I Ass_ Jan 2019.pdf' }
+            ],
+            '2017': [
+                { name: '15CSE211_Ass II_April 2017.pdf', path: 'uploads/15CSE211_Ass II_April 2017.pdf' }
+            ]
+        },
+        'D': {
+            '2023': [
+                { name: '21CSE304_Sem3_Nov2023.pdf', path: 'uploads/21CSE304_Sem3_Nov2023.pdf' },
+                { name: '19CSE304_V Sem End_Odd 2023.pdf', path: 'uploads/19CSE304_V Sem End_Odd 2023.pdf' },
+                { name: '19CSE304_I Ass Oct 2022.pdf', path: 'uploads/19CSE304_I Ass Oct 2022.pdf' },
+                { name: '19CSE304_II Ass Dec 2022.pdf', path: 'uploads/19CSE304_II Ass Dec 2022.pdf' }
+            ]
+        }
+    }
+};
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const semester = document.getElementById('semester').value;
+                const section = document.getElementById('section').value;
+                const year = document.getElementById('year').value;
+
+                // Validate inputs
+                if (!semester || !section || !year) {
+                    alert('Please select all fields');
+                    return;
+                }
+
+                // Check if papers exist for this combination
+                const papers = questionPapers[semester]?.[section]?.[year];
+                
+                if (papers && papers.length > 0) {
+                    // Show papers in popup
+                    showPapersPopup(semester, section, year, papers);
+                } else {
+                    alert('No question papers available for the selected combination');
+                }
+            });
+
+            function showPapersPopup(semester, section, year, papers) {
+                // Set popup title
+                popupTitle.textContent = `Question Papers - Sem ${semester} Sec ${section} (${year})`;
+                
+                // Clear previous papers
+                paperList.innerHTML = '';
+                
+                // Add papers to the list
+                papers.forEach(paper => {
+                    const paperItem = document.createElement('div');
+                    paperItem.className = 'paper-item';
+                    paperItem.innerHTML = `
+                        <span class="paper-name">${paper.name}</span>
+                        <a href="${paper.path}" class="download-btn" download>
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    `;
+                    paperList.appendChild(paperItem);
+                });
+                
+                // Show popup and overlay
+                popup.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+
+            // Close popup when close button is clicked
+            closeBtn.addEventListener('click', function() {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+
+            // Close popup when overlay is clicked
+            overlay.addEventListener('click', function() {
+                popup.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
